@@ -1,3 +1,5 @@
+This fork/branch is inspired by Midelic's work on MILO protocol and hopefully one time I will manage to get more protocols working with the SX1280 chipset.
+
 # Multiprotocol TX Module
 <img align="right" width=300 src="docs/images/multi.png" />
 
