@@ -116,15 +116,16 @@
 
 //Once a good tuning value is found it can be set here and will override the frequency tuning for a specific protocol.
 //Uncomment the lines below (remove the "//") and set an appropriate value (replace the "0") to enable. Valid range is -300 to +300 and default is 0.
-//#define FORCE_AFHDS2A_TUNING	0
-//#define FORCE_BUGS_TUNING		0
-//#define FORCE_FLYSKY_TUNING	0
-//#define FORCE_HEIGHT_TUNING	0
-//#define FORCE_HUBSAN_TUNING	0
-//#define FORCE_JOYSWAY_TUNING	0
-//#define FORCE_KYOSHO_TUNING	0
-//#define FORCE_PELIKAN_TUNING	0
-//#define FORCE_WFLY2_TUNING	0
+//#define FORCE_AFHDS2A_TUNING		0
+//#define FORCE_BUGS_TUNING			0
+//#define FORCE_FLYSKY_TUNING		0
+//#define FORCE_HEIGHT_TUNING		0
+//#define FORCE_HUBSAN_TUNING		0
+//#define FORCE_JOYSWAY_TUNING		0
+//#define FORCE_KYOSHO_TUNING		0
+//#define FORCE_PELIKAN_TUNING		0
+//#define FORCE_WFLY2_TUNING		0
+//#define FORCE_SHENGTENG_TUNING	0
 
 /** CYRF6936 Fine Frequency Tuning **/
 //This is required in rare cases where some CYRF6936 modules and/or RXs have an inaccurate crystal oscillator.
@@ -267,6 +268,9 @@
 
 //The protocols below need a SX1276 to be installed
 #define	FRSKYR9_SX1276_INO
+
+//The protocols below need a SX1280 or an A7105 to be installed
+#define	SHENGTENG_SX1280_INO
 
 /***************************/
 /*** PROTOCOLS SETTINGS  ***/
@@ -839,6 +843,8 @@ const PPM_Parameters PPM_prot[14*NBR_BANKS]=	{
 		XINXUN
 		NIHUI
 	PROTO_ZSX
+		NONE
+	PROTO_SHENGTENG
 		NONE
 */
 

@@ -19,7 +19,7 @@
 #define VERSION_MAJOR		1
 #define VERSION_MINOR		3
 #define VERSION_REVISION	3
-#define VERSION_PATCH_LEVEL	19
+#define VERSION_PATCH_LEVEL	20
 
 #define MODE_SERIAL 0
 
@@ -121,6 +121,7 @@ enum PROTOCOLS
 	PROTO_XERALL	= 91,	// =>NRF24L01
 	PROTO_MT99XX2	= 92,	// =>NRF24L01, extension of MT99XX protocol
 	PROTO_KYOSHO2	= 93,	// =>NRF24L01
+	PROTO_Shengteng = 94,   // A7105, transition to SX1280 planned
 
 	PROTO_NANORF	= 126,	// =>NRF24L01
 	PROTO_TEST		= 127,	// =>CC2500
