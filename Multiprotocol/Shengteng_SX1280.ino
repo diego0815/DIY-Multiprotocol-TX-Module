@@ -17,6 +17,8 @@
 
 #include "iface_a7105.h"
 
+//#define SHENTENG_FORCE_ID
+
 //Shengteng constants & variables
 #define SHENGTENG_BIND_COUNT 2500
 
@@ -34,17 +36,11 @@ static void __attribute__((unused)) SHENGTENG_send_packet()
 			A7105_WriteData(17, 0x01);
 			packet_sent++;
 			packet_period=1421;
-			#if 0
-				debug("ch=01 P=");
-				for(uint8_t i=0; i<17; i++)
-					debug("%02X ", packet[i]);
-				debugln("");
-			#endif
 		}
 		else
 			A7105_Strobe(A7105_TX);	//only send
-	}
-	else
+	} // bind end
+	else // no bind
 	{
 		//original TX is only refreshing the packet every 20ms and keep repeating the same packet in between (STROBE_TX) 
 		//build packet=6 channels with order AETR
@@ -58,13 +54,7 @@ static void __attribute__((unused)) SHENGTENG_send_packet()
 		//send it
 		A7105_WriteData(6, rf_ch_num);
 		packet_period=931;	//packet period fluctuates a lot on the original TX from one packet to the other but stable if looking over a period of 40ms
-		#if 0
-			debug("ch=%02X P=",rf_ch_num);
-			for(uint8_t i=0; i<6; i++)
-				debug("%02X ", packet[i]);
-			debugln("");
-		#endif
-	}
+	} // no bind end
 }
 
 uint16_t SHENGTENG_callback()
@@ -78,18 +68,18 @@ uint16_t SHENGTENG_callback()
 		if (bind_counter==0)
 		{
 			BIND_DONE;
-				A7105_WriteID(MProtocol_id);
-				A7105_WriteReg(A7105_03_FIFOI,0x05);
+			A7105_WriteID(MProtocol_id);
+			A7105_WriteReg(A7105_03_FIFOI,0x05);
 		}
-	}
-	else
+	} // bind end
+	else // no bind
 	{
 		if(hopping_frequency_no==0)
 			A7105_SetPower();
 		#ifdef MULTI_SYNC
 			telemetry_set_input_sync(packet_period);
 		#endif
-	}
+	} // no bind end
 	SHENGTENG_send_packet();
 	return packet_period;
 }
@@ -101,21 +91,23 @@ void SHENGTENG_init()
 	// compute channels from ID
 	calc_fh_channels(15);
 	hopping_frequency_no=0;
-
-    {
-		MProtocol_id &= 0x00FF00FF;
-		rx_tx_addr[0] = 0xAF - (rx_tx_addr[1]&0x0F);
-		rx_tx_addr[2] = 0xFF -  rx_tx_addr[3];
-		MProtocol_id |= (rx_tx_addr[0]<<24) + (rx_tx_addr[2]<<8);
-		if(IS_BIND_IN_PROGRESS)
-			A7105_WriteID(0xAF00FF00);
-		else
-		{
-			A7105_WriteID(MProtocol_id);
-			A7105_WriteReg(A7105_03_FIFOI,0x05);
-		}
+	MProtocol_id &= 0x00FF00FF;
+	rx_tx_addr[0] = 0xAF - (rx_tx_addr[1]&0x0F);
+	rx_tx_addr[2] = 0xFF -  rx_tx_addr[3];
+	MProtocol_id |= (rx_tx_addr[0]<<24) + (rx_tx_addr[2]<<8);
+	#ifdef SHENGTENG_FORCE_ID
+      MProtocol_id=0xAF90738C;
+      set_rx_tx_addr(MProtocol_id);
+      memcpy(hopping_frequency,"\x27\x1B\x63\x75\x03\x39\x57\x69\x87\x0F\x7B\x3F\x33\x51\x6F",15);
+   #endif
+ 	if(IS_BIND_IN_PROGRESS)
+		A7105_WriteID(0xAF00FF00);
+	else
+	{
+		A7105_WriteID(MProtocol_id);
+		A7105_WriteReg(A7105_03_FIFOI,0x05);
 	}
-
+	
 	if(IS_BIND_IN_PROGRESS)
 		bind_counter = SHENGTENG_BIND_COUNT;
 

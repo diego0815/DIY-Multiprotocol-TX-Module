@@ -105,6 +105,7 @@ const char STR_CONFIG[]     ="Config";
 const char STR_LOSI[]       ="Losi";
 const char STR_MOULDKG[]    ="MouldKg";
 const char STR_XERALL[]     ="Xerall";
+const char STR_SHENGTENG[]  ="STModel";
 
 const char STR_SUBTYPE_FLYSKY[] =     "\x04""Std\0""V9x9""V6x6""V912""CX20";
 const char STR_SUBTYPE_HUBSAN[] =     "\x04""H107""H301""H501";
@@ -420,7 +421,10 @@ const mm_protocol_definition multi_protocols[] = {
 	#if defined(SCANNER_CC2500_INO)
 		{PROTO_SCANNER,    STR_SCANNER,   NO_SUBTYPE,            0, OPTION_NONE,    0, 0, SW_CC2500, SCANNER_init,    SCANNER_callback    },
 	#endif
-	#if defined(SHENQI_NRF24L01_INO)
+	#if defined(SHENGTENG_SX1280_INO)
+    {PROTO_SHENGTENG,  STR_SHENGTENG, NO_SUBTYPE,            0, OPTION_NONE,    0, 0, SW_A7105,  SHENGTENG_init,  SHENGTENG_callback  },
+  #endif
+  #if defined(SHENQI_NRF24L01_INO)
 		{PROTO_SHENQI,     STR_SHENQI,    NO_SUBTYPE,            0, OPTION_NONE,    0, 0, SW_NRF,    SHENQI_init,     SHENQI_callback     },
 	#endif
 	#if defined(SKYARTEC_CC2500_INO)
