@@ -210,6 +210,11 @@ void A7105_AdjustLOBaseFreq(uint8_t cmd)
 					offset=(int16_t)FORCE_KYOSHO_TUNING;
 				#endif
 				break;
+			case PROTO_SHENGTENG:
+				#ifdef FORCE_SHENGTENG_TUNING
+					offset=(int16_t)FORCE_SHENGTENG_TUNING;
+				#endif
+				break;
 			case PROTO_JOYSWAY:
 				#ifdef FORCE_JOYSWAY_TUNING
 					offset=(int16_t)FORCE_JOYSWAY_TUNING;

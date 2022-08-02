@@ -121,7 +121,7 @@ enum PROTOCOLS
 	PROTO_XERALL	= 91,	// =>NRF24L01
 	PROTO_MT99XX2	= 92,	// =>NRF24L01, extension of MT99XX protocol
 	PROTO_KYOSHO2	= 93,	// =>NRF24L01
-	PROTO_Shengteng = 94,   // A7105, transition to SX1280 planned
+	PROTO_SHENGTENG = 94,   // A7105, transition to SX1280 planned
 
 	PROTO_NANORF	= 126,	// =>NRF24L01
 	PROTO_TEST		= 127,	// =>CC2500
