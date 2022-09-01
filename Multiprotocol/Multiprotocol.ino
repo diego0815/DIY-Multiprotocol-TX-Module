@@ -48,7 +48,7 @@
 
 //Multiprotocol module configuration file
 #include "_Config.h"
-
+#undef TELEMETRY
 
 //Personal config file
 #if defined(USE_MY_CONFIG)

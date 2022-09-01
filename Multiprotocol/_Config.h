@@ -75,7 +75,7 @@
 //!!!If a RF chip is present it MUST be marked as installed!!! or weird things will happen you have been warned.
 //#define A7105_INSTALLED
 //#define CYRF6936_INSTALLED
-#define CC2500_INSTALLED
+//#define CC2500_INSTALLED
 //#define NRF24L01_INSTALLED
 //#define SX1276_INSTALLED		// only supported on STM32 modules
 #define SX1280_INSTALLED
@@ -384,7 +384,6 @@
 
 //If you do not plan to use the Serial mode comment this line using "//" to save Flash space
 #define ENABLE_SERIAL
-
 
 /*************************/
 /*** PPM MODE SETTINGS ***/
