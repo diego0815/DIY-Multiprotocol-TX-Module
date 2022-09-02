@@ -5,8 +5,15 @@
     #define SHA256_BLOCK_SIZE 32
     #define FHSS_HOPPING_CHANNELS 36
 
+    // define bind channel
+    const uint8_t fhss_bind_channel_list/*_2p4*/[] = 
+    {
+        0 //,14, 33, 61 // just pick some
+    };
+
+    
     // channel list expanded to match list in Bluetooth core specification 5.3 page 389: f=2402+k MHz, k=0..78
-    const uint32_t fhss_freq_list_2p4[] = 
+    const uint32_t fhss_freq_list/*_2p4*/[] = 
     {
         SX1280_FREQ_MHZ_TO_REG(0),  // channel 0, 2402 MHz
         SX1280_FREQ_MHZ_TO_REG(1),  // channel 1, 2403 MHz
@@ -125,14 +132,34 @@
         {18, 43, 68},
     };
 
-    const uint8_t fhss_bind_channel_list_2p4[] = 
+    // randomise permutation of "fix" channels
+    const uint8_t fhss_block_fix[24][4] = 
     {
-        0 //,14, 33, 61 // just pick some
+        {0, 1, 69, 78},
+        {0, 1, 78, 69},
+        {0, 69, 1, 78},
+        {0, 69, 78, 1},
+        {0, 78, 1, 69},
+        {0, 78, 69, 1},
+        {1, 0, 69, 78},
+        {1, 0, 78, 69},
+        {1, 69, 0, 78},
+        {1, 69, 78, 0},
+        {1, 78, 69, 0},
+        {1, 78, 0, 69},
+        {69, 0, 1, 78},
+        {69, 0, 78, 1},
+        {69, 1, 0, 78},
+        {69, 1, 78, 0},
+        {69, 78, 0, 1},
+        {69, 78, 1, 0},
+        {78, 0, 1, 69},
+        {78, 0, 69, 1},
+        {78, 1, 0, 69},
+        {78, 1, 69, 0},
+        {78, 69, 0, 1},
+        {78, 69, 1, 0},
     };
-
-//    #define FHSS_FREQ_LIST_MAX_LEN  42 
-//    #define FHSS_MAX_NUM    42  // must be <= FHSS_FREQ_LIST_MAX_LEN
-//    #define FHSS_CHANNELS_NUM  36  // must be <= FHSS_MAX_NUM
 
     uint32_t _seed;
     bool is_in_binding;
@@ -144,10 +171,10 @@
     uint32_t fhss_list[FHSS_HOPPING_CHANNELS]; // that's our list of randomly selected frequencies
 //    int8_t fhss_last_rssi[FHSS_MAX_NUM];//
 
-    uint8_t freq_list_len;
-    uint8_t fhss_bind_channel_list_len;
-    const uint32_t* fhss_freq_list;
-    const uint8_t* fhss_bind_channel_list;
+//    uint8_t freq_list_len;
+//    uint8_t fhss_bind_channel_list_len;
+//    const uint32_t* fhss_freq_list;
+//    const uint8_t* fhss_bind_channel_list;
         
     void ICACHE_RAM_ATTR Fhss_Init();
                 

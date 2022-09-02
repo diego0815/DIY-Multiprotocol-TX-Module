@@ -1,20 +1,18 @@
 #ifdef MILO_SX1280_INO
 #include "Milo_hoppingTableGen.h"
-//#include "sha256.h"
 #include <SHA3.h>
 
 void ICACHE_RAM_ATTR Fhss_Init()
     {
-        fhss_freq_list = fhss_freq_list_2p4;
-        fhss_bind_channel_list = fhss_bind_channel_list_2p4;
-        freq_list_len = (uint8_t)(sizeof(fhss_freq_list_2p4) / sizeof(uint32_t));
-        fhss_bind_channel_list_len = (uint8_t)(sizeof(fhss_bind_channel_list_2p4) / sizeof(uint8_t));
-//        cnt = FHSS_CHANNELS_NUM;
+        // fhss_freq_list = fhss_freq_list_2p4;
+        // fhss_bind_channel_list = fhss_bind_channel_list_2p4;
+        // freq_list_len = (uint8_t)(sizeof(fhss_freq_list_2p4) / sizeof(uint32_t));
+        // fhss_bind_channel_list_len = (uint8_t)(sizeof(fhss_bind_channel_list_2p4) / sizeof(uint8_t));
+        // cnt = FHSS_HOPPING_CHANNELS;
         curr_i = 0;
         is_in_binding = false;
         _seed = 0;
     }
-        
         
 void ICACHE_RAM_ATTR Fhss_generate(uint32_t seed)//
     {
@@ -72,14 +70,18 @@ void ICACHE_RAM_ATTR Fhss_generate(uint32_t seed)//
             }
         }
 
-
 /*        if (lenB<8 || lenG<3)
         {
             //lets think what we should do if the hopping sequence gets too short
         }
         else */
         {
-            hoppingTable[0]=0; // fixed channel
+            uint32_t fix_permutator = buf[0];
+            fix_permutator = fix_permutator<<8 || buf[1];
+            fix_permutator =fix_permutator%24;
+        
+
+            hoppingTable[0]=fhss_block_fix[fix_permutator][0]; // fixed channel
             hoppingTable[1]=fhss_block_bad[1][1];
             hoppingTable[2]=fhss_block_bad[1][2];
             hoppingTable[3]=fhss_block_good[1][1];
@@ -88,7 +90,7 @@ void ICACHE_RAM_ATTR Fhss_generate(uint32_t seed)//
             hoppingTable[6]=fhss_block_good[1][2];
             hoppingTable[7]=fhss_block_bad[2][2];
             hoppingTable[8]=fhss_block_bad[2][3];
-            hoppingTable[FHSS_HOPPING_CHANNELS/4]=69; // fixed channel
+            hoppingTable[FHSS_HOPPING_CHANNELS/4]==fhss_block_fix[fix_permutator][1]; // fixed channel
             hoppingTable[10]=fhss_block_bad[3][1];
             hoppingTable[11]=fhss_block_bad[3][2];
             hoppingTable[12]=fhss_block_good[1][3];                        
@@ -97,7 +99,7 @@ void ICACHE_RAM_ATTR Fhss_generate(uint32_t seed)//
             hoppingTable[15]=fhss_block_good[2][1];
             hoppingTable[16]=fhss_block_bad[4][2];
             hoppingTable[17]=fhss_block_bad[4][3];
-            hoppingTable[FHSS_HOPPING_CHANNELS/2]=1; // fixed channel                                                            
+            hoppingTable[FHSS_HOPPING_CHANNELS/2]==fhss_block_fix[fix_permutator][2]; // fixed channel                                                            
             hoppingTable[19]=fhss_block_bad[5][1];
             hoppingTable[20]=fhss_block_bad[5][2];
             hoppingTable[21]=fhss_block_good[2][2];  
@@ -106,7 +108,7 @@ void ICACHE_RAM_ATTR Fhss_generate(uint32_t seed)//
             hoppingTable[24]=fhss_block_good[2][3];
             hoppingTable[25]=fhss_block_bad[6][2];
             hoppingTable[26]=fhss_block_bad[6][3];
-            hoppingTable[FHSS_HOPPING_CHANNELS/4*3]=78; // fixed channel
+            hoppingTable[FHSS_HOPPING_CHANNELS/4*3]==fhss_block_fix[fix_permutator][3]; // fixed channel
             hoppingTable[28]=fhss_block_bad[7][1];
             hoppingTable[29]=fhss_block_bad[7][2];
             hoppingTable[30]=fhss_block_good[3][1];  
