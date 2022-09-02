@@ -17,7 +17,7 @@
 
 #if defined(MILO_SX1280_INO)
 	
-	#include "Milo_FHSS.h"
+	#include "Milo_hoppingTableGen.h"
 	#include "iface_sx1280.h"
 	#include "SX1280.h"
 	#define RATE_DEFAULT 0 
@@ -376,7 +376,7 @@
 			case MiLo_DATA1:
 			packet_count = (packet_count + 1)%3;
 			MiLo_data_frame();
-			nextChannel(1);
+			nextChannel();
 			SX1280_SetFrequencyReg(GetCurrFreq());
 			SX1280_WriteBuffer(0x00, packet,PayloadLength); //
 			SX1280_SetTxRxMode(TX_EN);// do first to allow PA stablise
@@ -399,14 +399,14 @@
 			case MiLo_UPLNK_TLM:	//Uplink telemetry
 			packet_count = (packet_count + 1)%3;	
 			MiLo_Telemetry_frame();
-			nextChannel(1);
+			nextChannel();
 			SX1280_SetFrequencyReg(GetCurrFreq());		
 			SX1280_WriteBuffer(0x00, packet, PayloadLength); 
 			SX1280_SetMode(SX1280_MODE_TX);	
 			state = MiLo_DWLNK_TLM1;// next frame is RX downlink temetry
 			return 5400;//
 			case MiLo_DWLNK_TLM1://downlink telemetry
-			nextChannel(1);
+			nextChannel();
 			SX1280_SetFrequencyReg(GetCurrFreq());
 			SX1280_SetTxRxMode(RX_EN);// do first to enable LNA
 			SX1280_SetMode(SX1280_MODE_RX);
@@ -600,6 +600,3 @@
 	15- downlink telemetry
 	
 */
-
-
-
